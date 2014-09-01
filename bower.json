@@ -1,0 +1,19 @@
+{
+    "name": "race-underground",
+    "version": "0.1.0",
+    "authors": [
+        "Stefan <korun_stefan@hotmail.com>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "phaser": "latest"
+    }
+}
