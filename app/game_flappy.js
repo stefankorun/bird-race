@@ -20,6 +20,8 @@ var mainState = {
     create: function() {
         // Set the physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        var newBird = Phaser.Rectangle(10, 10, 20, 20);
 
         // Display the bird on the screen
         this.bird = this.game.add.sprite(100, 245, 'bird');
