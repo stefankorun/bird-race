@@ -10,28 +10,27 @@ var cursors;
 function preload() {}
 
 function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    // var testBitmapData = new Phaser.BitmapData(game, 'testbmp');
-    // testBitmapData.rect(50, 50, 50, 50);
-    // testBitmapData.fill(255,255,255,1);
-    // var wowow = game.add.sprite(10, 10, testBitmapData);
-    // game.physics.arcade.enable(wowow);
-
     game.stage.backgroundColor = '#71c5cf';
+    
     game.world.setBounds(0, 0, game.width * 3, game.height);
+    game.physics.startSystem(Phaser.Physics.P2JS);
+    
+    game.physics.p2.gravity.y = 100;
+    game.physics.p2.restitution = 0.8;
+    
     var graphics = game.add.graphics(0, 0);
-
     graphics.beginFill('#000000', 1);
-    var rect = graphics.drawRect(0, 0, 100, 100);
+    var rect = graphics.drawRect(0, 0, 200, 200);
     console.log(rect);
     graphics.alpha = 1;
     graphics.endFill();
 
     sprite = game.add.sprite(100, 100);
     sprite.addChild(graphics);
+    
+    game.physics.p2.enable(sprite);
+    sprite.body.collideWorldBounds = true;
 
-    game.physics.arcade.enable(sprite);
 
     game.camera.follow(sprite);
     cursors = game.input.keyboard.createCursorKeys();
