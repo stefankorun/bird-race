@@ -8,7 +8,8 @@ var sprite;
 var space;
 
 function preload() {
-    this.load.image('background', 'assets/google/cloud-background2.png');
+    game.load.image('background', 'assets/google/cloud-background2.png');
+    game.load.spritesheet('bird', 'assets/flappy/bird.png', 34, 24, 3);
 }
 
 function create() {
@@ -25,14 +26,17 @@ function create() {
     game.physics.p2.restitution = 0.9;
 
     var bmd = game.add.bitmapData(60, 60);
-    sprite = game.add.sprite(100, 100, bmd);
+    sprite = game.add.sprite(100, 100, 'bird');
+    sprite.animations.add('flap');
+
+
+
     bmd.clear();
     bmd.circle(30, 30, 30);
-    bmd.fill('#FF00FF')
+    bmd.fill('#FF00FF');
 
 
     game.physics.p2.enable(sprite);
-    sprite.body.angle = 45;
 
     game.camera.follow(sprite);
 
@@ -43,8 +47,9 @@ function create() {
 function update() {
     if (space.isDown) {
         sprite.body.velocity.y -= 200;
+        sprite.body.velocity.x += 100;
+        sprite.animations.play('flap', 12, false);
     }
-    sprite.body.velocity.x = 100;
 }
 
 function render() {
