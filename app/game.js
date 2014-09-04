@@ -7,14 +7,15 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 
 var bird1 = new RaceGame.Bird(game, 'bird1', Phaser.Keyboard.SPACEBAR);
 var bird2 = new RaceGame.Bird(game, 'bird2', Phaser.Keyboard.ENTER);
+var players = new RaceGame.CurrentPlayers(game);
 
 function preload() {
     game.time.advancedTiming = true; // za fps vo debug
 
     game.load.image('background', 'assets/google/cloud-background2.png');
 
-    bird1.preload();
-    bird2.preload();
+    players.addPlayer(bird1);
+    players.addPlayer(bird2);
 }
 
 function create() {
@@ -34,10 +35,7 @@ function create() {
     game.physics.p2.gravity.y = 2000;
     game.physics.p2.restitution = 0.9;
 
-    bird1.create();
-    bird2.create();
-
-    game.camera.follow(bird1.sprite);
+    players.createAll();
 
 //    var gph = game.add.graphics(0, 0);
 //    gph.beginFill('#000000', 1);
@@ -53,30 +51,9 @@ function create() {
 }
 
 function update() {
+    players.checkCamera();
 }
 
 function render() {
     game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
-}
-
-var topGroup;
-function addTerrain() {
-    topGroup = game.add.group();
-
-    var terrainWidth = 0;
-    while (terrainWidth < game.world.width) {
-        var currentWidth = _.random(20, 150);
-        var currentHeight = _.random(20, 250);
-
-        var bmd = game.add.bitmapData(currentWidth, currentHeight);
-        bmd.clear();
-        bmd.fill(_.random(0, 255), _.random(0, 255), _.random(0, 255));
-        var spriteTop = game.add.sprite(terrainWidth + currentWidth / 2, 0 + currentHeight / 2, bmd);
-        var spriteBottom = game.add.sprite(terrainWidth + currentWidth / 2, game.world.height - currentHeight / 2, bmd);
-        game.physics.p2.enable(spriteTop);
-        game.physics.p2.enable(spriteBottom);
-        spriteTop.body.static = true;
-        spriteBottom.body.mass = 8;
-        terrainWidth += currentWidth;
-    }
 }

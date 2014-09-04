@@ -16,6 +16,7 @@ RaceGame = {
             space.onDown.add(tiltBird);
 
             var that = this;
+
             function tiltBird() {
                 that.sprite.body.moveUp(400);
                 that.sprite.body.moveRight(400);
@@ -23,6 +24,43 @@ RaceGame = {
                 that.sprite.body.rotation = 0;
             }
         };
+    },
+    CurrentPlayers: function (game) {
+        var players = [];
+        var leader;
+
+        this.addPlayer = function (bird) {
+            bird.preload();
+            players.push(bird);
+        };
+        this.createAll = function () {
+            _.each(players, function (player) {
+                player.create();
+            });
+        };
+        this.checkCamera = function () {
+            if (updateLeader()) {
+                game.camera.follow(leader.sprite);
+            }
+        };
+
+        function updateLeader() {
+            // true - leader has changed
+            if (!leader) {
+                leader = players[0];
+                return true;
+            }
+            var previousLeader = leader;
+            _.each(players, function (player) {
+                if (leader.sprite.x < player.sprite.x) {
+                    leader = player;
+                }
+            });
+            if (previousLeader == leader) {
+                return false;
+            }
+            return true;
+        }
     },
     Terrain: {
         addTerrain: function (game) {
