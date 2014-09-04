@@ -4,8 +4,11 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
     update: update,
     render: render
 });
-var sprite;
-var space;
+
+// TODO Lista od objekti player
+var player1;
+var player2;
+
 
 function preload() {
     game.load.image('background', 'assets/google/cloud-background2.png');
@@ -23,17 +26,21 @@ function create() {
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.setBoundsToWorld(true, true, true, true, false); // fix za da odbivat od granici
 
-    korunGranici();
+    addTerrain();
 
     // opcii na p2 fizika
-    game.physics.p2.gravity.y = 1000;
+    game.physics.p2.gravity.y = 2000;
     game.physics.p2.restitution = 0.9;
 
     // dodavanje na sprite ptica
-    sprite = game.add.sprite(100, 100, 'bird');
-    sprite.animations.add('flap');
-    game.physics.p2.enable(sprite, true);
-    game.camera.follow(sprite);
+    player1 = game.add.sprite(100, game.world.height / 2 - 50, 'bird');
+    player1.animations.add('flap');
+    game.physics.p2.enable(player1, true);
+    game.camera.follow(player1);
+
+    player2 = game.add.sprite(100, game.world.height / 2 + 50, 'bird');
+    player2.animations.add('flap');
+    game.physics.p2.enable(player2, true);
 
 
 //    var gph = game.add.graphics(0, 0);
@@ -49,27 +56,40 @@ function create() {
 //    gphSprite.body.addPolygon({}, 0, 50, 60, 40, 100);
 
     // Keybinding    
-    space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.NUMPAD_ENTER]);
+    var space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    space.onDown.add(tiltPlayer1, this);
+    var npdEnter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    npdEnter.onDown.add(tiltPlayer2, this);
+
+
+    // TODO Da se sredit lajnurijava
+    function tiltPlayer1(args) {
+        console.log(args);
+        player1.body.moveUp(400);
+        player1.body.moveRight(400);
+        player1.animations.play('flap', 12, false);
+        player1.body.rotation = 0;
+    }
+    function tiltPlayer2() {
+        player2.body.moveUp(400);
+        player2.body.moveRight(400);
+        player2.animations.play('flap', 12, false);
+        player2.body.rotation = 0;
+    }
 }
 
 function update() {
-    if (space.isDown) {
-        sprite.body.moveUp(200);
-        sprite.body.moveRight(400);
-        sprite.animations.play('flap', 12, false);
-        sprite.body.rotation = 0;
-    }
 }
 
 function render() {
     game.debug.cameraInfo(game.camera, 500, 32);
-    game.debug.spriteCoords(sprite, 32, 32);
-    game.debug.body(sprite);
+    game.debug.spriteCoords(player1, 32, 32);
+    game.debug.body(player1);
 }
 
 var topGroup;
-function korunGranici() {
+function addTerrain() {
     topGroup = game.add.group();
 
     var terrainWidth = 0;
@@ -88,49 +108,4 @@ function korunGranici() {
         spriteBottom.body.mass = 8;
         terrainWidth += currentWidth;
     }
-
-
-}
-
-function klimentGranici() {
-    var graphics = game.add.graphics(0, 0);
-    var graphicsbottom = game.add.graphics(0, 0);
-    var upperdock = game.add.sprite(0, 0);
-    var bottomdock = game.add.sprite(0, 600);
-
-    game.physics.p2.enableBody(upperdock);
-    upperdock.body.static = true;
-    upperdock.body.clearShapes();
-    //sprite.body.loadPolygon('physicsData','tetrisblock3');
-    graphics.beginFill(0xFFFF0B);
-    for (var x = 0, i = 0; x < game.width * 3; i++) {
-        var width = Math.floor(Math.random() * 200);
-        var height = Math.floor(Math.random() * 100 + (i % 2 * 180));
-        upperdock.body.addRectangle(width, height, x + width / 2, height / 2, 0);
-
-        graphics.drawRect(x, 0, width, height);
-
-        x += width;
-    }
-    graphics.endFill();
-    upperdock.addChild(graphics);
-    game.physics.p2.enable(upperdock);
-
-    game.physics.p2.enableBody(bottomdock);
-    bottomdock.body.static = true;
-    bottomdock.body.clearShapes();
-    //sprite.body.loadPolygon('physicsData','tetrisblock3');
-    graphicsbottom.beginFill(0xFFFF0B);
-    for (var x = 0, i = 0; x < game.width * 3; i++) {
-        var width = Math.floor(Math.random() * 200);
-        var height = Math.floor(Math.random() * 100 + (i % 2 * 180));
-        bottomdock.body.addRectangle(width, height, x + width / 2, height / 2 - height, 0);
-
-        graphicsbottom.drawRect(x, -height, width, height)
-
-        x += width;
-    }
-    graphicsbottom.endFill();
-    bottomdock.addChild(graphicsbottom);
-    game.physics.p2.enable(bottomdock);
 }
