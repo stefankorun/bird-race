@@ -85,7 +85,7 @@ function korunGranici() {
         game.physics.p2.enable(spriteTop);
         game.physics.p2.enable(spriteBottom);
         spriteTop.body.static = true;
-
+        spriteTop.body.mass = 3;
         terrainWidth += currentWidth;
     }
 
@@ -108,7 +108,7 @@ function klimentGranici() {
         var height = Math.floor(Math.random() * 100 + (i % 2 * 180));
         upperdock.body.addRectangle(width, height, x + width / 2, height / 2, 0);
 
-        graphics.drawRect(x, 0, width, height)
+        graphics.drawRect(x, 0, width, height);
 
         x += width;
     }
