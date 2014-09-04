@@ -85,7 +85,7 @@ function korunGranici() {
         game.physics.p2.enable(spriteTop);
         game.physics.p2.enable(spriteBottom);
         spriteTop.body.static = true;
-        spriteTop.body.mass = 3;
+        spriteBottom.body.mass = 8;
         terrainWidth += currentWidth;
     }
 
