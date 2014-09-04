@@ -16,7 +16,7 @@ function create() {
     game.stage.backgroundColor = '#71c5cf';
 
     // pozadina i granici na svet
-    game.world.setBounds(0, 0, game.width * 3, game.height);
+    game.world.setBounds(0, 0, game.width * 30, game.height);
     game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
 
     // start na fizika
