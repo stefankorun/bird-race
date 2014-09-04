@@ -5,14 +5,16 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
     render: render
 });
 
-// TODO Lista od objekti player
-var player1;
-var player2;
-
+var bird1 = new RaceGame.Bird(game, 'bird1', Phaser.Keyboard.SPACEBAR);
+var bird2 = new RaceGame.Bird(game, 'bird2', Phaser.Keyboard.ENTER);
 
 function preload() {
+    game.time.advancedTiming = true; // za fps vo debug
+
     game.load.image('background', 'assets/google/cloud-background2.png');
-    game.load.spritesheet('bird', 'assets/flappy/bird.png', 34, 24, 3);
+
+    bird1.preload();
+    bird2.preload();
 }
 
 function create() {
@@ -26,22 +28,16 @@ function create() {
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.setBoundsToWorld(true, true, true, true, false); // fix za da odbivat od granici
 
-    addTerrain();
+    RaceGame.Terrain.addTerrain(this);
 
     // opcii na p2 fizika
     game.physics.p2.gravity.y = 2000;
     game.physics.p2.restitution = 0.9;
 
-    // dodavanje na sprite ptica
-    player1 = game.add.sprite(100, game.world.height / 2 - 50, 'bird');
-    player1.animations.add('flap');
-    game.physics.p2.enable(player1, true);
-    game.camera.follow(player1);
+    bird1.create();
+    bird2.create();
 
-    player2 = game.add.sprite(100, game.world.height / 2 + 50, 'bird');
-    player2.animations.add('flap');
-    game.physics.p2.enable(player2, true);
-
+    game.camera.follow(bird1.sprite);
 
 //    var gph = game.add.graphics(0, 0);
 //    gph.beginFill('#000000', 1);
@@ -54,38 +50,13 @@ function create() {
 //    gphSprite.addChild(gph);
 //    game.physics.p2.enable(gphSprite, true);
 //    gphSprite.body.addPolygon({}, 0, 50, 60, 40, 100);
-
-    // Keybinding    
-    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.NUMPAD_ENTER]);
-    var space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    space.onDown.add(tiltPlayer1, 1);
-    var npdEnter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-    npdEnter.onDown.add(tiltPlayer2, this);
-
-
-    // TODO Da se sredit lajnurijava
-    function tiltPlayer1(args) {
-        console.log(args);
-        player1.body.moveUp(400);
-        player1.body.moveRight(400);
-        player1.animations.play('flap', 12, false);
-        player1.body.rotation = 0;
-    }
-    function tiltPlayer2() {
-        player2.body.moveUp(400);
-        player2.body.moveRight(400);
-        player2.animations.play('flap', 12, false);
-        player2.body.rotation = 0;
-    }
 }
 
 function update() {
 }
 
 function render() {
-    game.debug.cameraInfo(game.camera, 500, 32);
-    game.debug.spriteCoords(player1, 32, 32);
-    game.debug.body(player1);
+    game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
 }
 
 var topGroup;
