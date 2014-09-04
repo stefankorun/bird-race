@@ -40,7 +40,7 @@ RaceGame = {
         };
         this.checkCamera = function () {
             if (updateLeader()) {
-                game.camera.follow(leader.sprite);
+                game.camera.follow(leader.sprite, Phaser.Camera.FOLLOW_TOPDOWN);
             }
         };
 
@@ -67,19 +67,26 @@ RaceGame = {
             // TODO Ova seckat ko ke e golema mapa, da se dodavat postepeno +/- edna camera
             var terrainWidth = 0;
             while (terrainWidth < game.world.width) {
-                var currentWidth = _.random(20, 150);
-                var currentHeight = _.random(20, 250);
+                var bmdWidth = _.random(20, 100);
+                var bmdHeightTop = _.random(20, 250);
+                var bmdHeightBottom = _.random(200, game.world.height - bmdHeightTop) - 150;
 
-                var bmd = game.add.bitmapData(currentWidth, currentHeight);
-                bmd.clear();
-                bmd.fill(_.random(0, 255), _.random(0, 255), _.random(0, 255));
-                var spriteTop = game.add.sprite(terrainWidth + currentWidth / 2, 0 + currentHeight / 2, bmd);
-                var spriteBottom = game.add.sprite(terrainWidth + currentWidth / 2, game.world.height - currentHeight / 2, bmd);
+                // top terrain
+                var bmdTop = game.add.bitmapData(bmdWidth, bmdHeightTop);
+                bmdTop.fill(_.random(0, 255), _.random(0, 255), _.random(0, 255));
+                var spriteTop = game.add.sprite(terrainWidth + bmdWidth / 2, 0 + bmdHeightTop / 2, bmdTop);
                 game.physics.p2.enable(spriteTop);
-                game.physics.p2.enable(spriteBottom);
                 spriteTop.body.static = true;
-                spriteBottom.body.static = true;
-                terrainWidth += currentWidth;
+
+                terrainWidth += bmdWidth;
+
+                var bmdBottom = game.add.bitmapData(bmdWidth, bmdHeightBottom);
+                bmdBottom.fill(_.random(0, 255), _.random(0, 255), _.random(0, 255));
+                var spriteBottom = game.add.sprite(terrainWidth + bmdWidth / 2, game.world.height - bmdHeightBottom / 2, bmdBottom);
+                game.physics.p2.enable(spriteBottom);
+                spriteBottom.body.mass = 10;
+
+                terrainWidth += bmdWidth;
             }
         }
 
