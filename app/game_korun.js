@@ -58,7 +58,7 @@ function create() {
     // Keybinding    
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.NUMPAD_ENTER]);
     var space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    space.onDown.add(tiltPlayer1, this);
+    space.onDown.add(tiltPlayer1, 1);
     var npdEnter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     npdEnter.onDown.add(tiltPlayer2, this);
 
