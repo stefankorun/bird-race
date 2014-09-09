@@ -65,7 +65,7 @@ RaceGame = {
     Terrain: {
         addTerrain: function (game) {
             // TODO Ova seckat ko ke e golema mapa, da se dodavat postepeno +/- edna camera
-            var terrainWidth = 0;
+            var terrainWidth = 200;
             while (terrainWidth < game.world.width) {
                 var bmdWidth = _.random(20, 100);
                 var bmdHeightTop = _.random(20, 250);

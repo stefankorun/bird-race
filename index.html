@@ -1,17 +1,40 @@
 <!doctype html>
 <html>
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>hello phaser!</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="style/game.css">
 </head>
+
 <body>
+    <header class="clearfix">
+        <div class="container">
+            <div class="game-title">bird race</div>
+            <div class="game-devs">by stefan & kliment</div>
+        </div>
+    </header>
+    <section class="main">
+        <div id="race-game-wrapper" class="container">
+            <div class="canvas-overlay">
+                
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            All right reserved, 2014
+        </div>
+    </footer>
 
-<h3>letaj na spacebar</h3>
 
-<script src="assets/lodash.js"></script>
-<script src="assets/phaser.js"></script>
+    <script src="assets/lodash.js"></script>
+    <script src="assets/phaser.js"></script>
 
-<script src="app/models.js" type="text/javascript"></script>
-<script src="app/game.js" type="text/javascript"></script>
+    <script src="app/models.js" type="text/javascript"></script>
+    <script src="app/game.js" type="text/javascript"></script>
 </body>
+
 </html>

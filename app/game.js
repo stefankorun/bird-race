@@ -1,9 +1,10 @@
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, '', {
+var game = new Phaser.Game(1170, 600, Phaser.AUTO, 'race-game-wrapper', {
     preload: preload,
     create: create,
     update: update,
     render: render
 });
+
 
 var bird1 = new RaceGame.Bird(game, 'bird1', Phaser.Keyboard.SPACEBAR);
 var bird2 = new RaceGame.Bird(game, 'bird2', Phaser.Keyboard.ENTER);
@@ -36,6 +37,8 @@ function create() {
     game.physics.p2.restitution = 0.9;
 
     players.createAll();
+    
+    game.paused = true;
 
 //    var gph = game.add.graphics(0, 0);
 //    gph.beginFill('#000000', 1);
