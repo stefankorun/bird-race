@@ -34,11 +34,11 @@ function create() {
 
     // opcii na p2 fizika
     game.physics.p2.gravity.y = 2000;
-    game.physics.p2.restitution = 0.9;
+    game.physics.p2.restitution = 0.7;
 
     players.createAll();
     
-    game.paused = true;
+    // game.paused = true;
 
 //    var gph = game.add.graphics(0, 0);
 //    gph.beginFill('#000000', 1);
