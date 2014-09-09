@@ -38,7 +38,7 @@ function create() {
 
     players.createAll();
     
-    // game.paused = true;
+    game.paused = true;
 
 //    var gph = game.add.graphics(0, 0);
 //    gph.beginFill('#000000', 1);
