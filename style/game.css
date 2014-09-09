@@ -1,15 +1,11 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Inconsolata:400,700|Play:400,700|Maven+Pro:400,700|Luckiest+Guy);
-
-body {
+ body {
     background: #CCD9DD;
-    
     font-family: "Luckiest Guy";
     color: #324B6B;
     font-size: 20px;
 }
-
-header {}
-header .game-title {
+header {} header .game-title {
     float: left;
     font-size: 1.5em;
 }
@@ -17,26 +13,25 @@ header .game-devs {
     float: left;
     margin-top: 5px;
     padding-left: 10px;
-    
     font-size: 0.8em;
 }
-
-.main {}
-.main #race-game-wrapper {
+.main {} .main #race-game-wrapper {
     position: relative;
     padding: 0;
 }
 .main #race-game-wrapper .canvas-overlay {
     position: absolute;
-    top: 0; bottom: 0; right: 0; left: 0;
-    background: rgba(255, 255, 255, 0.4);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: repeating-linear-gradient(-55deg, #222, #222 10px, #333 10px, #333 20px);
+    opacity: 0.9;
     display: none;
 }
 .main #race-game-wrapper canvas {
     box-shadow: 0px 0px 6px #727272;
 }
-
-
 footer {
     font-size: 0.6em;
 }

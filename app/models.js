@@ -100,7 +100,10 @@ var RaceGame = {
                 else {
                     var spriteBottom = game.add.sprite(terrainWidth + bmdWidth / 2, game.world.height - bmdHeight / 2, bmd);
                     game.physics.p2.enable(spriteBottom);
-                    spriteBottom.body.static = true;
+                    if(bmdHeight > 150) {
+                        spriteBottom.body.static = true;
+                    } else {
+                    }
                 }
 
                 terrainWidth += bmdWidth;
