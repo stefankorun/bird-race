@@ -17,6 +17,8 @@ function preload() {
 
     players.addPlayer(bird1);
     players.addPlayer(bird2);
+    
+    RaceGame.OverlayUI.showStartUI();
 }
 
 function create() {

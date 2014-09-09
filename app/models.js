@@ -119,6 +119,20 @@ var RaceGame = {
                 */
             }
         }
-
+    },
+    OverlayUI: {
+        container: $('.canvas-overlay'),
+        showStartUI: function () {
+            var ovCont = this.container;
+            
+            var startGameBtn = $('<div class="btn btn-default">Start game</div>');
+            ovCont.append(startGameBtn);
+            
+            startGameBtn.click(function () {
+                ovCont.hide();
+                game.paused = false;
+            })
+            
+        }
     }
 };
