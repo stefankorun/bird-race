@@ -8,7 +8,7 @@ var game = new Phaser.Game(1170, 600, Phaser.AUTO, 'race-game-wrapper', {
 
 var bird1 = new RaceGame.Bird(game, 'bird1', Phaser.Keyboard.SPACEBAR);
 var bird2 = new RaceGame.Bird(game, 'bird2', Phaser.Keyboard.ENTER);
-var players = new RaceGame.CurrentPlayers(game);
+var players = new RaceGame.CurrentGame(game);
 
 function preload() {
     game.time.advancedTiming = true; // za fps vo debug
@@ -56,7 +56,9 @@ function create() {
 }
 
 function update() {
-    players.checkCamera();
+    players.checkPlayerOutOfCamera();
+    players.checkGameEnd();
+    players.updateCamera();
 }
 
 function render() {

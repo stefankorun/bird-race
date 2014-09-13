@@ -28,7 +28,7 @@ var RaceGame = {
             }
         };
     },
-    CurrentPlayers: function(game) {
+    CurrentGame: function(game) {
         var players = [];
         var leader;
 
@@ -41,11 +41,27 @@ var RaceGame = {
                 player.create();
             });
         };
-        this.checkCamera = function() {
+        
+        // update methods
+        this.updateCamera = function() {
             if (updateLeader()) {
                 game.camera.follow(leader.sprite, Phaser.Camera.FOLLOW_TOPDOWN);
             }
         };
+        this.checkPlayerOutOfCamera = function () {
+            _.each(players, function(player) {
+                if(!player.sprite.inCamera) {
+                    player.sprite.destroy();
+                    players = _.without(players, player);
+                }
+            });
+        }
+        this.checkGameEnd = function() {
+            if(players.length < 2) {
+                updateLeader();
+                RaceGame.OverlayUI.showGameEndUI(leader);
+            }
+        }
 
         function updateLeader() {
             // true - leader has changed
@@ -67,7 +83,6 @@ var RaceGame = {
     },
     Terrain: {
         addTerrain: function(game) {
-            // TODO Ova seckat ko ke e golema mapa, da se dodavat postepeno +/- edna camera
             var terrainWidth = 200;
             var lastBlock = {}
 
@@ -77,11 +92,13 @@ var RaceGame = {
 
                 bmdWidth = 65;
                 if (_.isUndefined(lastBlock.height) || lastBlock.topOrBottom == topOrBottom) {
+                    // first block || same position (both top or bottom)
                     bmdHeight = _.random(50, game.world.height - 150);
                     lastBlock.height = bmdHeight;
                     lastBlock.topOrBottom = topOrBottom;
                 }
                 else {
+                    // different position top+bottom < lastBlock.height - 150 so there is no immpasable terrain
                     bmdHeight = _.random(50, game.world.height - lastBlock.height - 150);
                     lastBlock.height = bmdHeight;
                     lastBlock.topOrBottom = topOrBottom;
@@ -102,7 +119,6 @@ var RaceGame = {
                     game.physics.p2.enable(spriteBottom);
                     if(bmdHeight > 150) {
                         spriteBottom.body.static = true;
-                    } else {
                     }
                 }
 
@@ -129,10 +145,20 @@ var RaceGame = {
             ovCont.append(startGameBtn);
             
             startGameBtn.click(function () {
+                startGameBtn.remove();
                 ovCont.hide();
                 game.paused = false;
             })
+        },
+        showGameEndUI: function (leader) {
+            var ovCont = this.container;
+            game.paused = true;
+            ovCont.show();
             
+            var gameWinnerTxt = $('<h1 style="color: #fff;"></h1>');
+            
+            gameWinnerTxt.text(leader.name + ' won!!')
+            ovCont.append(gameWinnerTxt);
         }
     }
 };
