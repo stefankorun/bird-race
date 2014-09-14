@@ -8,7 +8,10 @@ body {
 }
 
 /* HEADER */
-header {} header .game-title {
+header {
+    position: relative;
+}
+header .game-title {
     float: left;
     font-size: 1.5em;
 }
@@ -21,7 +24,10 @@ header .game-devs {
 
 
 /* MAIN */
-.main {} .main #race-game-wrapper {
+.main {
+    position: relative;
+} 
+.main #race-game-wrapper {
     position: relative;
     padding: 0;
 }
@@ -34,10 +40,18 @@ header .game-devs {
     background: repeating-linear-gradient(-55deg, #222, #222 10px, #333 10px, #333 20px);
     opacity: 0.7;
 }
-.main #race-game-wrapper .btn {
+.main #race-game-wrapper .canvas-overlay .btn {
+    position: relative;
+    display: block;
     padding: 10px;
-    margin: 20px;
+    width: 200px;
+    margin: 20px auto;
 }
+.main #race-game-wrapper .canvas-overlay h1 {
+    text-align: center;
+}
+
+
 .main #race-game-wrapper canvas {
     box-shadow: 0px 0px 6px #727272;
 }

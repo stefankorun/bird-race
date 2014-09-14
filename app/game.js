@@ -14,15 +14,20 @@ function preload() {
     game.time.advancedTiming = true; // za fps vo debug
 
     game.load.image('background', 'assets/google/cloud-background2.png');
+    game.load.audio('music', 'assets/music/Map_basic.mp3');
 
     players.addPlayer(bird1);
     players.addPlayer(bird2);
-    
+
     RaceGame.OverlayUI.showStartUI();
 }
 
 function create() {
     game.stage.backgroundColor = '#71c5cf';
+
+    var music = game.add.audio('music', 1, true);
+    music.play('', 0, 0.5, true);
+
 
     // pozadina i granici na svet
     game.world.setBounds(0, 0, game.width * 30, game.height);
@@ -39,7 +44,7 @@ function create() {
     game.physics.p2.restitution = 0.7;
 
     players.createAll();
-    
+
     game.paused = true;
 
 //    var gph = game.add.graphics(0, 0);

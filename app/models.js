@@ -1,16 +1,16 @@
 var RaceGame = {
-    Bird: function(game, name, button) {
+    Bird: function (game, name, button) {
         this.game = game;
         this.name = name;
 
-        this.preload = function() {
+        this.preload = function () {
             game.load.spritesheet('bird', 'assets/flappy/bird.png', 34, 24, 3);
         };
-        this.create = function() {
+        this.create = function () {
             this.sprite = game.add.sprite(100, game.world.height / 2, 'bird');
             this.sprite.animations.add('flap');
             game.physics.p2.enable(this.sprite);
-            
+
             this.sprite.body.clearShapes();
             this.sprite.body.addCircle(18);
 
@@ -28,36 +28,36 @@ var RaceGame = {
             }
         };
     },
-    CurrentGame: function(game) {
+    CurrentGame: function (game) {
         var players = [];
         var leader;
 
-        this.addPlayer = function(bird) {
+        this.addPlayer = function (bird) {
             bird.preload();
             players.push(bird);
         };
-        this.createAll = function() {
-            _.each(players, function(player) {
+        this.createAll = function () {
+            _.each(players, function (player) {
                 player.create();
             });
         };
-        
+
         // update methods
-        this.updateCamera = function() {
+        this.updateCamera = function () {
             if (updateLeader()) {
                 game.camera.follow(leader.sprite, Phaser.Camera.FOLLOW_TOPDOWN);
             }
         };
         this.checkPlayerOutOfCamera = function () {
-            _.each(players, function(player) {
-                if(!player.sprite.inCamera) {
+            _.each(players, function (player) {
+                if (!player.sprite.inCamera) {
                     player.sprite.destroy();
                     players = _.without(players, player);
                 }
             });
         }
-        this.checkGameEnd = function() {
-            if(players.length < 2) {
+        this.checkGameEnd = function () {
+            if (players.length < 2) {
                 updateLeader();
                 RaceGame.OverlayUI.showGameEndUI(leader);
             }
@@ -70,7 +70,7 @@ var RaceGame = {
                 return true;
             }
             var previousLeader = leader;
-            _.each(players, function(player) {
+            _.each(players, function (player) {
                 if (leader.sprite.x < player.sprite.x) {
                     leader = player;
                 }
@@ -82,7 +82,7 @@ var RaceGame = {
         }
     },
     Terrain: {
-        addTerrain: function(game) {
+        addTerrain: function (game) {
             var terrainWidth = 200;
             var lastBlock = {}
 
@@ -117,7 +117,7 @@ var RaceGame = {
                 else {
                     var spriteBottom = game.add.sprite(terrainWidth + bmdWidth / 2, game.world.height - bmdHeight / 2, bmd);
                     game.physics.p2.enable(spriteBottom);
-                    if(bmdHeight > 150) {
+                    if (bmdHeight > 150) {
                         spriteBottom.body.static = true;
                     }
                 }
@@ -125,14 +125,14 @@ var RaceGame = {
                 terrainWidth += bmdWidth;
 
                 /*
-                var bmdBottom = game.add.bitmapData(bmdWidth, bmdHeightBottom);
-                bmdBottom.fill(_.random(0, 255), _.random(0, 255), _.random(0, 255));
-                var spriteBottom = game.add.sprite(terrainWidth + bmdWidth / 2, game.world.height - bmdHeightBottom / 2, bmdBottom);
-                game.physics.p2.enable(spriteBottom);
-                spriteBottom.body.mass = 10;
+                 var bmdBottom = game.add.bitmapData(bmdWidth, bmdHeightBottom);
+                 bmdBottom.fill(_.random(0, 255), _.random(0, 255), _.random(0, 255));
+                 var spriteBottom = game.add.sprite(terrainWidth + bmdWidth / 2, game.world.height - bmdHeightBottom / 2, bmdBottom);
+                 game.physics.p2.enable(spriteBottom);
+                 spriteBottom.body.mass = 10;
 
-                terrainWidth += bmdWidth;
-                */
+                 terrainWidth += bmdWidth;
+                 */
             }
         }
     },
@@ -140,10 +140,10 @@ var RaceGame = {
         container: $('.canvas-overlay'),
         showStartUI: function () {
             var ovCont = this.container;
-            
+
             var startGameBtn = $('<div class="btn btn-default">Start game</div>');
             ovCont.append(startGameBtn);
-            
+
             startGameBtn.click(function () {
                 startGameBtn.remove();
                 ovCont.hide();
@@ -154,11 +154,16 @@ var RaceGame = {
             var ovCont = this.container;
             game.paused = true;
             ovCont.show();
-            
+
             var gameWinnerTxt = $('<h1 style="color: #fff;"></h1>');
-            
             gameWinnerTxt.text(leader.name + ' won!!')
             ovCont.append(gameWinnerTxt);
-        }
+
+            var restartGameBtn = $('<div class="btn btn-default">Restart game</div>');
+            restartGameBtn.click(function () {
+                location.reload();
+            });
+            ovCont.append(restartGameBtn);
+        },
     }
 };
