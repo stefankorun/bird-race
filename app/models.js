@@ -55,13 +55,14 @@ var RaceGame = {
                     players = _.without(players, player);
                 }
             });
-        }
+        };
         this.checkGameEnd = function () {
-            if (players.length < 2) {
-                updateLeader();
+            if (leader && leader.sprite.position.x > game.world.bounds.width - (leader.sprite.width / 2)) {
+                RaceGame.OverlayUI.showGameEndUI(leader);
+            } else if (players.length < 2) {
                 RaceGame.OverlayUI.showGameEndUI(leader);
             }
-        }
+        };
 
         function updateLeader() {
             // true - leader has changed
@@ -84,10 +85,10 @@ var RaceGame = {
     Terrain: {
         addTerrain: function (game) {
             var terrainWidth = 200;
-            var lastBlock = {}
+            var lastBlock = {};
 
             while (terrainWidth < game.world.width) {
-                var topOrBottom = _.random(1, 2) // 1 == top ; 2 == bottom
+                var topOrBottom = _.random(1, 2); // 1 == top ; 2 == bottom
                 var bmdWidth, bmdHeight;
 
                 bmdWidth = 65;
