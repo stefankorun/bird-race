@@ -166,7 +166,7 @@ var RaceGame = {
         showStartUI: function () {
             var ovCont = this.container;
 
-            var startGameBtn = $('<div class="btn btn-default">Start game</div>');
+            var startGameBtn = $('<div class="btn btn-default">Start race</div>');
             ovCont.append(startGameBtn);
 
             startGameBtn.click(function () {
@@ -184,7 +184,7 @@ var RaceGame = {
             gameWinnerTxt.text(leader.name + ' won!!')
             ovCont.append(gameWinnerTxt);
 
-            var restartGameBtn = $('<div class="btn btn-default">Restart game</div>');
+            var restartGameBtn = $('<div class="btn btn-default">Race again</div>');
             restartGameBtn.click(function () {
                 location.reload();
             });
