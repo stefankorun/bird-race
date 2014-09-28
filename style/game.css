@@ -56,6 +56,10 @@ header .game-devs {
     box-shadow: 0px 0px 6px #727272;
 }
 
+.description {
+    font-size: 0.7em;
+}
+
 
 /* FOOTER */
 footer {

@@ -30,7 +30,12 @@ var RaceGame = {
     },
     CurrentGame: function (game) {
         var players = [];
+        var boosts = [];
         var leader;
+
+        this.addBoost = function (star) {
+            boosts.push(star);
+        };
 
         this.addPlayer = function (bird) {
             bird.preload();
@@ -47,6 +52,20 @@ var RaceGame = {
             if (updateLeader()) {
                 game.camera.follow(leader.sprite, Phaser.Camera.FOLLOW_TOPDOWN);
             }
+        };
+        this.checkBoostCollision = function () {
+            _.each(players, function (player) {
+                var playerBounds = player.sprite.getBounds();
+                _.each(boosts, function(boost) {
+                    var boostBounds = boost.getBounds();
+                    if(Phaser.Rectangle.intersects(playerBounds, boostBounds)) {
+                        player.sprite.body.moveRight(800);
+                        boosts = _.without(boosts, boost);
+                        boost.destroy();
+                    }
+                });
+            });
+
         };
         this.checkPlayerOutOfCamera = function () {
             _.each(players, function (player) {
@@ -99,7 +118,7 @@ var RaceGame = {
                     lastBlock.topOrBottom = topOrBottom;
                 }
                 else {
-                    // different position top+bottom < lastBlock.height - 150 so there is no immpasable terrain
+                    // different position top+bottom < lastBlock.height - 150 so there is no impassable terrain
                     bmdHeight = _.random(50, game.world.height - lastBlock.height - 150);
                     lastBlock.height = bmdHeight;
                     lastBlock.topOrBottom = topOrBottom;
@@ -121,6 +140,11 @@ var RaceGame = {
                     if (bmdHeight > 150) {
                         spriteBottom.body.static = true;
                     }
+                }
+
+                if (_.random(1, 5) == 5 && topOrBottom == 2) {
+                    var star = game.add.sprite(terrainWidth + bmdWidth / 2, game.world.height - bmdHeight - 50, 'star');
+                    players.addBoost(star);
                 }
 
                 terrainWidth += bmdWidth;

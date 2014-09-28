@@ -8,12 +8,15 @@ var game = new Phaser.Game(1170, 600, Phaser.AUTO, 'race-game-wrapper', {
 
 var bird1 = new RaceGame.Bird(game, 'bird1', Phaser.Keyboard.SPACEBAR);
 var bird2 = new RaceGame.Bird(game, 'bird2', Phaser.Keyboard.ENTER);
+
 var players = new RaceGame.CurrentGame(game);
 
 function preload() {
     game.time.advancedTiming = true; // za fps vo debug
 
     game.load.image('background', 'assets/google/cloud-background2.png');
+    game.load.image('star', 'assets/tutorial/star.png');
+
     game.load.audio('music', 'assets/music/Map_basic.mp3');
 
     players.addPlayer(bird1);
@@ -30,7 +33,7 @@ function create() {
 
 
     // pozadina i granici na svet
-    game.world.setBounds(0, 0, game.width * 2, game.height);
+    game.world.setBounds(0, 0, game.width * 5, game.height);
     game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
 
     // start na fizika
@@ -61,6 +64,7 @@ function create() {
 }
 
 function update() {
+    players.checkBoostCollision();
     players.checkPlayerOutOfCamera();
     players.checkGameEnd();
     players.updateCamera();
