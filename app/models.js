@@ -59,7 +59,7 @@ var RaceGame = {
                 _.each(boosts, function(boost) {
                     var boostBounds = boost.getBounds();
                     if(Phaser.Rectangle.intersects(playerBounds, boostBounds)) {
-                        player.sprite.body.moveRight(800);
+                        player.sprite.body.velocity.x = 800;
                         boosts = _.without(boosts, boost);
                         boost.destroy();
                     }
